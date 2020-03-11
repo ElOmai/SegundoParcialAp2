@@ -5,6 +5,17 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Pages\Consultas\**" />
+    <Compile Remove="Pages\Registros\**" />
+    <Content Remove="Pages\Consultas\**" />
+    <Content Remove="Pages\Registros\**" />
+    <EmbeddedResource Remove="Pages\Consultas\**" />
+    <EmbeddedResource Remove="Pages\Registros\**" />
+    <None Remove="Pages\Consultas\**" />
+    <None Remove="Pages\Registros\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="3.1.2" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.1.2">
       <PrivateAssets>all</PrivateAssets>
@@ -15,8 +26,6 @@
   <ItemGroup>
     <Folder Include="Controllers\" />
     <Folder Include="DataBase\" />
-    <Folder Include="Pages\Consultas\" />
-    <Folder Include="Pages\Registros\" />
   </ItemGroup>
 
 </Project>

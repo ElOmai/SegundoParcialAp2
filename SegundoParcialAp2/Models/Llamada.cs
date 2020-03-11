@@ -6,10 +6,12 @@ using System.Threading.Tasks;
 
 namespace SegundoParcialAp2.Models
 {
-    public class Prueba
+    public class Llamada
     {
         [Key]
+        public int LlamadaId { get; set; }
+        public string Descripcion { get; set; }
 
-        public int Id { get; set; }
+        public List <Llamada> Llamadas;
     }
 }
