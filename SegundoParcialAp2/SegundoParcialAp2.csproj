@@ -14,6 +14,7 @@
 
   <ItemGroup>
     <Folder Include="Controllers\" />
+    <Folder Include="DataBase\" />
     <Folder Include="Pages\Consultas\" />
     <Folder Include="Pages\Registros\" />
   </ItemGroup>
