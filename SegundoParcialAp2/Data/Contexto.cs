@@ -9,7 +9,8 @@ namespace SegundoParcialAp2.Data
 {
     public class Contexto : DbContext
     {
-        public DbSet<Prueba> Pruebas { get; set; }
+        public DbSet<Llamada> Llamadas { get; set; }
+        public DbSet<LlamadaDetalle> LlamadaDetalles { get; set; }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseSqlite(@"Data Source= Database/Data.db");

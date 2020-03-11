@@ -12,6 +12,13 @@ namespace SegundoParcialAp2.Models
         public int LlamadaId { get; set; }
         public string Descripcion { get; set; }
 
-        public List <Llamada> Llamadas;
+        public List <LlamadaDetalle> Detalles;
+
+        public Llamada()
+        {
+            LlamadaId = 0;
+            Descripcion = string.Empty;
+            Detalles = new List<LlamadaDetalle>();
+        }
     }
 }
