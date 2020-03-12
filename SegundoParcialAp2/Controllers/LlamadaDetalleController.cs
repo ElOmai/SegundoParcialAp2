@@ -10,7 +10,7 @@ namespace SegundoParcialAp2.Controllers
 {
     public class LlamadaDetalleController
     {
-        public List<LlamadaDetalle> GetLlamada(Expression<Func<LlamadaDetalle, bool>> expression)
+        public List<LlamadaDetalle> GetDetalle(Expression<Func<LlamadaDetalle, bool>> expression)
         {
             Contexto contexto = new Contexto();
             List<LlamadaDetalle> lista;

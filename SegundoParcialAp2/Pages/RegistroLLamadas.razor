@@ -1,0 +1,187 @@
+﻿@page "/RegistroLlamada/{LlamadaId:int}"
+@using SegundoParcialAp2.Models;
+@using SegundoParcialAp2.Controllers;
+<h3>Registro de Llamadas</h3>
+<EditForm Model="Llamada" OnValidSubmit="Guardar">
+    <DataAnnotationsValidator />
+
+    <div class="container">
+        <div class="card">
+            <div class="card-body">
+
+                <div class="form-group row">
+                    <label for="LlamadaId " class="col-auto">Llamada Id</label>
+                    <div class="input-group  col-sm-3">
+                        <InputNumber @bind-Value="@Llamada.LlamadaId" class="form-control" />
+                        <ValidationMessage For="@(()=>Llamada.LlamadaId)" />
+                        <div class="input-group-append">
+                            <button type="button" class="btn btn-outline-info" @onclick="Buscar">Buscar</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-auto" for="Descripcion">Descripcion:</label>
+                    <div class="col-4">
+                        <InputText @bind-Value="@Llamada.Descripcion" class="form-control" />
+                        <ValidationMessage For="@(()=>Llamada.Descripcion)" />
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-auto" for="Problema">Problema:</label>
+                    <div class="col-4">
+                        <InputText @bind-Value="@LlamadaDetalle.Problema" class="form-control" />
+                        <ValidationMessage For="@(()=>LlamadaDetalle.Problema)" />
+                    </div>
+                    <label class="col-auto" for="Solucion">Solucion:</label>
+                    <div class="col-4">
+                        <InputText @bind-Value="@LlamadaDetalle.Solucion" class="form-control" />
+                        <ValidationMessage For="@(()=>LlamadaDetalle.Solucion)" />
+                    </div>
+                </div>
+                <button type="button" class="btn btn-outline-primary" @onclick="AgregarDetalle">Agregar</button>
+            </div>
+                <div class="card">
+                    <div class="card-body">
+                        <table class="table">
+                            <thead class="thead-dark">
+                                <tr>
+                                    <th>Id</th>
+                                    <th>Problema</th>
+                                    <th>Solucion</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Llamada.Detalles)
+                                {
+                                    <tr>
+                                        <th>@item.LlamadaDetalleId.</th>
+                                        <th>@item.Problema</th>
+                                        <th>@item.Solucion</th>
+                                        <th><button type="button" class="btn btn-outline-danger btn-sm" @onclick="(()=> EliminarDetalle(item))">Eliminar</button></th>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <br />
+                <div class="text-center">
+                    <button type="button" class="btn btn-outline-secondary" @onclick="Limpiar">Limpiar</button>
+                    <button type="submit" class="btn btn-outline-success">Guardar</button>
+                    <button type="button" class="btn btn-outline-danger">Eliminar</button>
+                </div>
+
+                <h5 class="text-success">@mensaje</h5>
+            </div>
+        </div>
+    <br />
+
+
+</EditForm>
+
+
+@code {
+
+    [Parameter]
+    public int LlamadaId { get; set; }
+    public Llamada Llamada { get; set; }
+    public LlamadaDetalle LlamadaDetalle { get; set; }
+
+
+    private string MensajeDetalle = "";
+    private string mensaje = "";
+
+    protected override void OnInitialized()
+    {
+        Llamada = new Llamada();
+        LlamadaDetalle = new LlamadaDetalle();
+        if (LlamadaId != 0)
+        {
+            Llamada.LlamadaId = LlamadaId;
+            Buscar();
+        }
+    }
+    private void AgregarDetalle()
+    {
+        if (string.IsNullOrWhiteSpace(LlamadaDetalle.Problema))
+        {
+            MensajeDetalle = "Debe agregar un problema";
+            return;
+        }
+
+        if (string.IsNullOrWhiteSpace(LlamadaDetalle.Solucion))
+        {
+            MensajeDetalle = "Debe agregar una Solucion";
+            return;
+        }
+
+        Llamada.Detalles.Add(new LlamadaDetalle() { Problema = LlamadaDetalle.Problema, Solucion = LlamadaDetalle.Solucion });
+        LlamadaDetalle = new LlamadaDetalle();
+    }
+
+    private void EliminarDetalle(LlamadaDetalle detalle)
+    {
+        Llamada.Detalles.Remove(detalle);
+    }
+
+    public void Guardar()
+    {
+        LlamadaController controller = new LlamadaController();
+
+        mensaje = "";
+        if (controller.Guardar(Llamada))
+        {
+            Limpiar();
+            mensaje = "Llamada Guardada";
+        }
+        else
+        {
+            mensaje = "Error al guardar Llamada";
+        }
+
+    }
+
+    public void Buscar()
+    {
+        LlamadaController controller = new LlamadaController();
+
+        var llamada = controller.Buscar(Llamada.LlamadaId);
+
+        if (Llamada != null)
+        {
+            Llamada = llamada;
+        }
+        else
+        {
+            Llamada = new Llamada();
+            mensaje = "Llamada no existe";
+        }
+    }
+
+    public void Eliminar()
+    {
+        LlamadaController controller = new LlamadaController();
+
+
+        var llamada = controller.Buscar(Llamada.LlamadaId);
+
+        if (llamada != null)
+        {
+            controller.Eliminar(Llamada.LlamadaId);
+            Limpiar();
+            mensaje = "Llamada Eliminada";
+        }
+        else
+        {
+            mensaje = "Error al Eliminar";
+        }
+    }
+
+    public void Limpiar()
+    {
+        mensaje = "";
+        this.Llamada = new Llamada();
+    }
+
+}

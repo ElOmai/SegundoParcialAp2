@@ -96,7 +96,7 @@ namespace SegundoParcialAp2.Controllers
                 Llamada = contexto.Llamadas.Find(id);
                 if (Llamada != null)
                 {
-                    Llamada.Detalles = detallesController.GetLlamada(A => A.LlamadaDetalleId == id);
+                    Llamada.Detalles = detallesController.GetDetalle(A => A.LlamadaDetalleId == id);
                 }
             }
             catch (Exception)
